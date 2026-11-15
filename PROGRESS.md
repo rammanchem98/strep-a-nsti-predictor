@@ -107,3 +107,11 @@
 - **STOPPED here per CLAUDE.md**: needs your gcloud login, billing account, creates billable resources, sets GitHub
   variables, and a push. gcloud already has 2 accounts and an active project configured locally — not used, awaiting your choice.
 - Open issues: region default `europe-west4` (assumption — change if you prefer); live Cloud Run URL pending.
+
+## Block 7 — README
+- Built: `README.md` — SYNTHETIC banner, not-for-clinical-use statement, paper citation + DOI + authors' repo,
+  results table vs paper (internal + external rows, 0.3 numbers flagged as external), synthetic data description,
+  logistic-truth caveat, full "differences from the paper and why" table, Boruta negative result, architecture,
+  local/Docker/deploy instructions.
+- Checks: `pytest` 38 passed.
+- Open issues: **live Cloud Run link is a placeholder** until Block 6 deployment is done.

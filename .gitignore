@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+mlruns/
+mlartifacts/
+*.json.key
+*-key.json
+credentials*.json
+.env
+.env.*
+.vscode/
+.idea/

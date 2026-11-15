@@ -61,3 +61,26 @@
 - Open issues: the val-set gap (0.743 vs 0.725) is ~1.5 patients' worth and the MLP was grid-searched + early-stopped on
   the same val set, so its val score is optimistically biased. Selection rule followed as written. Serving MLP means
   the Docker image needs CPU torch.
+
+## Block 4 — Evaluation + SHAP + results.md
+- Built: `src/evaluate.py` → `results.md`, `artifacts/test_metrics_SYNTHETIC.json`, ROC + calibration plots,
+  SHAP summary plots for all 3 models (TreeExplainer RF; KernelExplainer LogReg/MLP, k-means(20) background,
+  preprocessed space). Test metrics + plots logged to each MLflow run. Oracle row = generator's true P(GAS).
+- Test set (n=82, 25 GAS):
+  | model | AUC [95% CI] | bal acc | Brier | AP | sens/spec @0.3 |
+  |---|---|---|---|---|---|
+  | LogReg | 0.882 [0.785, 0.960] | 0.791 | 0.160 | 0.799 | 0.92 / 0.39 |
+  | RF | 0.856 [0.749, 0.945] | 0.801 | 0.160 | 0.803 | 0.92 / 0.32 |
+  | MLP (served) | 0.835 [0.722, 0.928] | 0.815 | 0.168 | 0.726 | 0.92 / 0.47 |
+  | Oracle | 0.900 [0.811, 0.966] | 0.771 | 0.117 | 0.834 | 0.84 / 0.84 |
+- SHAP (served MLP): sign matches the true coefficient for 8/8 features; top 3 = creatinine, anogenital, surgery.
+- `pytest` 26 passed.
+- Deviations / honesty notes:
+  - `evaluate` was executed twice on the test set (2nd run only to inspect a stderr traceback = loky `wmic` core-count
+    warning on Windows, now silenced via `LOKY_MAX_CPU_COUNT`). Outputs identical; no model/threshold/selection change.
+  - An interpretation section was hand-written into results.md after the run (calibration over-prediction from class
+    re-weighting → low specificity at 0.3; LogReg best AUC as expected under a logistic truth). Stored in
+    `evaluate.INTERPRETATION`; re-rendering from the saved JSON reproduces results.md byte-for-byte.
+  - Optional 5-seed repeat not done.
+- Open issues: served model (MLP) has the lowest test AUC of the three; selection rule followed as written.
+  Low specificity at the 0.3 flag is reported, not re-tuned.

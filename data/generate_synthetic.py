@@ -157,6 +157,7 @@ def generate(n: int = config.N_PATIENTS, seed: int = config.SEED, variant: str =
     sample_intercept = -cut
     p_true = expit(eta0 + sample_intercept)
     sample_auc = roc_auc_score(df[config.TARGET], p_true)
+    df.attrs["p_true"] = p_true  # oracle probabilities; in-memory only, never written to the CSV
     # Pure-noise decoys (independent of everything).
     df["NOISE_1"] = rng.normal(0, 1, n).round(3)
     df["NOISE_2"] = rng.uniform(0, 100, n).round(2)

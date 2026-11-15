@@ -1,5 +1,9 @@
 """Central configuration. All data in this project is SYNTHETIC."""
+import os
 from pathlib import Path
+
+# joblib/loky shells out to `wmic` on Windows to count cores; avoid the noisy traceback.
+os.environ.setdefault("LOKY_MAX_CPU_COUNT", str(os.cpu_count() or 1))
 
 SEED = 42
 ROOT = Path(__file__).resolve().parents[1]

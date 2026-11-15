@@ -96,3 +96,14 @@
 - Deviations: none from CLAUDE.md. Image is 1.91 GB (CPU torch ≈ 810 MB, no CUDA libs) because the served model is the MLP.
 - Open issues: if image size/cold-start matters on Cloud Run, the alternative is serving LogReg/RF (sklearn-only,
   ~400 MB) — that would change the CLAUDE.md selection rule, so not done.
+
+## Block 6 — Cloud Run + CI/CD (LOCAL PREP ONLY — NOT DEPLOYED)
+- Built: `.github/workflows/ci-cd.yaml` (pytest → docker build → push to Artifact Registry tagged `${{ github.sha }}`
+  → `deploy-cloudrun` with min-instances 0, max 2, 1 GiB, unauthenticated, label data=synthetic → `/health` smoke test;
+  WIF auth via `id-token: write`, no JSON keys; config in repo *variables*, not secrets).
+  `deploy/gcp_setup.sh` (project + billing link, APIs, **budget alert** 50/90/100% of $10, Artifact Registry repo `nsti`,
+  deployer + no-role runtime service accounts, WIF pool/provider restricted to `rammanchem98/strep-a-nsti-predictor`).
+- Checks: workflow YAML parses (jobs: test, build-deploy); `bash -n` OK on setup script. Nothing executed against GCP or GitHub.
+- **STOPPED here per CLAUDE.md**: needs your gcloud login, billing account, creates billable resources, sets GitHub
+  variables, and a push. gcloud already has 2 accounts and an active project configured locally — not used, awaiting your choice.
+- Open issues: region default `europe-west4` (assumption — change if you prefer); live Cloud Run URL pending.

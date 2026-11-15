@@ -1,0 +1,53 @@
+{
+  "served_model": "mlp",
+  "selection": "max validation balanced accuracy (threshold 0.5)",
+  "threshold_flag": 0.3,
+  "data": "SYNTHETIC",
+  "features": [
+    "AGE",
+    "DIABETES",
+    "UPPER_ARM_ARRIVAL",
+    "LOWER_ARM_ARRIVAL",
+    "ANOGENITAL_ARRIVAL",
+    "SURGERY_BEFORE",
+    "creatinine_preop",
+    "hgb_preop"
+  ],
+  "models": {
+    "logreg": {
+      "run_id": "46bc2dd2b25048bdaf7ef2f5d40ccc14",
+      "params": {
+        "clf__C": 100,
+        "clf__penalty": "l2"
+      },
+      "val_balanced_acc": 0.7252747252747254,
+      "val_roc_auc": 0.8337912087912087,
+      "val_brier": 0.18310120705810878,
+      "cv_balanced_acc": 0.7645098039215685
+    },
+    "rf": {
+      "run_id": "01433c8ca9d8453d92374b4e32a3de2a",
+      "params": {
+        "clf__max_depth": 4,
+        "clf__max_features": 2,
+        "clf__n_estimators": 300
+      },
+      "val_balanced_acc": 0.7211538461538461,
+      "val_roc_auc": 0.8083791208791209,
+      "val_brier": 0.18053063132167024,
+      "cv_balanced_acc": 0.7486274509803921
+    },
+    "mlp": {
+      "run_id": "372f16a2049c4f24a95a425be8b07ff7",
+      "params": {
+        "hidden": "(32, 16)",
+        "lr": "0.001",
+        "dropout": "0.3",
+        "weight_decay": "0.0001"
+      },
+      "val_balanced_acc": 0.7431318681318682,
+      "val_roc_auc": 0.831043956043956,
+      "val_brier": 0.1845291953302125
+    }
+  }
+}

@@ -40,3 +40,24 @@
 - Deviation: models in Blocks 3+ use the **paper's 8 features** (CLAUDE.md's documented fallback), not the Boruta output.
   Boruta settings were not tuned to force a pass.
 - Open issues: whether to keep the Boruta result as-is in README (planned: yes, reported as a negative result).
+
+## Block 3 — Models + MLflow
+- Built: `src/models.py` (LogReg + RF GridSearchCV pipelines; `TorchMLPClassifier` sklearn wrapper, picklable),
+  `src/train.py`, `tests/test_models.py`. MLflow file store `mlruns/` (gitignored), experiment `nsti-gas-SYNTHETIC`,
+  tag `data=SYNTHETIC`; params, val metrics, model (with input example), MLP grid JSON. Served run tagged `served=true`.
+  Pipelines saved to `model/*.joblib`; `model/served_pipeline.joblib` + `served_meta.json` (selection recorded pre-test).
+- Hyperparameter selection: LogReg (penalty None/l2 × C 1e-3..1e3) and RF (authors' 27-point grid) by 5-fold CV
+  balanced acc on train; MLP grid (hidden (16,8)/(32,16) × lr 1e-3/3e-3 × dropout 0.1/0.3 × wd 1e-4/1e-3), full-batch
+  AdamW, early stopping on val loss (patience 100), pos_weight = 170/75 = 2.27.
+- Results (validation, n=82, threshold 0.5):
+  | model | best params | CV bal acc | val bal acc | val AUC | val Brier |
+  |---|---|---|---|---|---|
+  | LogReg | l2, C=100 | 0.765 | 0.725 | 0.834 | 0.183 |
+  | RF | depth 4, max_feat 2, 300 trees | 0.749 | 0.721 | 0.808 | 0.181 |
+  | MLP | (32,16), lr 1e-3, dropout 0.3, wd 1e-4 | – | **0.743** | 0.831 | 0.185 |
+- Served model: **MLP** (max val balanced acc). Re-run from clean reproduces identical numbers. `pytest` 26 passed.
+- Deviations: `class_weight="balanced"` on LogReg/RF (authors used none) so all three models handle imbalance the
+  same way as the MLP's pos_weight — otherwise balanced acc at 0.5 is not comparable. LogReg grid taken from authors' code.
+- Open issues: the val-set gap (0.743 vs 0.725) is ~1.5 patients' worth and the MLP was grid-searched + early-stopped on
+  the same val set, so its val score is optimistically biased. Selection rule followed as written. Serving MLP means
+  the Docker image needs CPU torch.

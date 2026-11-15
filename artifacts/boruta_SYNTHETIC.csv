@@ -1,0 +1,12 @@
+,confirmed_frac,tentative_frac,selected
+creatinine_preop,1.0,0.0,True
+hgb_preop,0.03333333333333333,0.0,False
+AGE,0.03333333333333333,0.1,False
+NOISE_2,0.03333333333333333,0.0,False
+DIABETES,0.0,0.0,False
+UPPER_ARM_ARRIVAL,0.0,0.0,False
+LOWER_ARM_ARRIVAL,0.0,0.0,False
+SURGERY_BEFORE,0.0,0.0,False
+ANOGENITAL_ARRIVAL,0.0,0.0,False
+NOISE_1,0.0,0.0,False
+NOISE_3,0.0,0.0,False

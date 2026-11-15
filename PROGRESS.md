@@ -24,3 +24,19 @@
 - Open issues: surgery split is 10/126 GAS vs 67/283 non-GAS (marginal OR ≈ 0.28) vs paper 5/72 (OR ≈ 0.12);
   coefficient kept at the anchored −2.1 (conditional OR ≠ marginal OR + sampling noise). Sample true AUC (0.867)
   is above the 0.83 target by chance; models will be compared against this ceiling.
+
+## Block 2 — Splits + Boruta
+- Built: `src/features.py` (authors' preprocessor as a ColumnTransformer; Boruta loop), splits saved to
+  `data/splits/{train,val,test}_SYNTHETIC.csv` (245/82/82; GAS 75/26/25, stratified),
+  `artifacts/boruta_SYNTHETIC.csv`, `artifacts/boruta_selected.json`, `tests/test_features.py`.
+- Boruta config = CLAUDE.md + authors' script (RF max_depth=5, balanced, perc=100, max_iter=100), on train only,
+  30 × 80% subsamples (196 rows), keep if confirmed in >50%.
+- **Check FAILED**: selected = [creatinine_preop] only (1.00). Others: hgb 0.03, AGE 0.03, NOISE_2 0.03, rest 0.00.
+  Decoys rejected ✔; 7/8 real features rejected ✘.
+- Diagnosis (not a code bug; settings match the authors'): low power at n≈196 + impurity-importance bias toward
+  continuous columns (continuous shadow features beat binary effects). Diagnostic runs (10 iters, NOT used for selection):
+  full 409 rows → creat 1.0, AGE 0.3, rest 0; fresh synthetic n=1500 → AGE/SURGERY/creat/hgb 1.0, ANOG 0.8,
+  NOISE_1 0.5 (!), DIABETES/UPPER/LOWER 0.0.
+- Deviation: models in Blocks 3+ use the **paper's 8 features** (CLAUDE.md's documented fallback), not the Boruta output.
+  Boruta settings were not tuned to force a pass.
+- Open issues: whether to keep the Boruta result as-is in README (planned: yes, reported as a negative result).

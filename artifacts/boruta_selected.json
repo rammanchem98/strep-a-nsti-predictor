@@ -1,0 +1,8 @@
+{
+  "selected": [
+    "creatinine_preop"
+  ],
+  "n_iter": 30,
+  "subsample": 0.8,
+  "rule": "confirmed in >50%"
+}

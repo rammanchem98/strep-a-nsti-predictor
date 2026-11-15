@@ -84,3 +84,15 @@
   - Optional 5-seed repeat not done.
 - Open issues: served model (MLP) has the lowest test AUC of the three; selection rule followed as written.
   Low specificity at the 0.3 flag is reported, not re-tuned.
+
+## Block 5 — API + tests + Docker
+- Built: `src/api.py` (FastAPI; `/health`, `/predict`), `tests/test_api.py`, `Dockerfile` (python:3.12-slim,
+  non-root, `$PORT` default 8080), `.dockerignore`, `requirements-serve.txt` (no mlflow/shap/boruta in the image).
+- `/predict`: 8 fields, Pydantic ranges (AGE 18–100 int; binaries Literal[0,1]; creatinine 20–2000 µmol/L and
+  hgb 3–22 g/dL, both optional → imputed by the pipeline); arrival sites mutually exclusive; extra fields rejected.
+  Returns probability, `gas_flag` (p ≥ 0.3), threshold, model, `data: SYNTHETIC`, disclaimer.
+- Checks: `pytest` 38 passed (1 third-party starlette/anyio DeprecationWarning). Docker build OK; container smoke test:
+  `/health` 200, `/predict` (upper arm, creat 180, hgb null) → p=0.868 flag=true, invalid body → 422.
+- Deviations: none from CLAUDE.md. Image is 1.91 GB (CPU torch ≈ 810 MB, no CUDA libs) because the served model is the MLP.
+- Open issues: if image size/cold-start matters on Cloud Run, the alternative is serving LogReg/RF (sklearn-only,
+  ~400 MB) — that would change the CLAUDE.md selection rule, so not done.

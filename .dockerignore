@@ -1,0 +1,13 @@
+.venv
+.git
+mlruns
+mlartifacts
+__pycache__
+.pytest_cache
+artifacts
+data
+tests
+*.md
+model/logreg_pipeline.joblib
+model/rf_pipeline.joblib
+model/mlp_pipeline.joblib

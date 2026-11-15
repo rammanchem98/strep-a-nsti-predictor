@@ -1,0 +1,39 @@
+{
+  "SYNTHETIC": true,
+  "seed": 42,
+  "n": 409,
+  "variant": "logistic",
+  "intercept": -0.4151331971492151,
+  "intercept_sample_realised": -0.5948073594266183,
+  "strength_multiplier": 1.1183619444916337,
+  "effective_coefficients": {
+    "UPPER_ARM_ARRIVAL": 0.894689555593307,
+    "LOWER_ARM_ARRIVAL": 0.22367238889832675,
+    "ANOGENITAL_ARRIVAL": -1.1183619444916337,
+    "DIABETES": -0.6710171666949802,
+    "AGE": -0.4473447777966535,
+    "creatinine_preop": 1.1183619444916337,
+    "hgb_preop": -0.22367238889832675,
+    "SURGERY_BEFORE": -2.1
+  },
+  "term_definitions": {
+    "AGE": "(AGE-50)/15",
+    "creatinine_preop": "log(creat/110)/0.67",
+    "hgb_preop": "(hgb-11.4)/3.04",
+    "binaries": "0/1"
+  },
+  "decoys": [
+    "NOISE_1",
+    "NOISE_2",
+    "NOISE_3"
+  ],
+  "missing_fraction": {
+    "creatinine_preop": 0.1,
+    "hgb_preop": 0.08
+  },
+  "best_achievable_auc_population": 0.829978725470421,
+  "best_achievable_auc_sample": 0.8667900611363508,
+  "gas_rate_target": 0.3080684596577017,
+  "gas_rate_sample": 0.3080684596577017,
+  "note": "Magnitudes are assumptions; directions from paper SHAP plots. Not real data."
+}

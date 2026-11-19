@@ -115,3 +115,10 @@
   local/Docker/deploy instructions.
 - Checks: `pytest` 38 passed.
 - Open issues: **live Cloud Run link is a placeholder** until Block 6 deployment is done.
+
+## Block 6 — GCP setup executed (2026-11-19, with your approval)
+- Ran `deploy/gcp_setup.sh` on existing project `project-85377ad2-eae6-4b4b-b13` (billing account in GBP), region `us-central1`.
+- Created: budget alert **8 GBP** (≈ $10; first attempt with `10USD` failed — budget currency must match the billing
+  account), Artifact Registry repo `nsti`, SAs `gh-deployer` (run.admin, artifactregistry.writer, actAs runtime SA) and
+  `nsti-runtime` (no roles), WIF pool `github` / provider `github-oidc` restricted to `rammanchem98/strep-a-nsti-predictor`.
+- Remaining: set 5 GitHub repo variables → re-run workflow → add live URL to README.

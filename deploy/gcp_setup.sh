@@ -8,7 +8,7 @@ PROJECT_ID="${PROJECT_ID:?set PROJECT_ID}"                # e.g. nsti-gas-mlops-
 BILLING_ACCOUNT="${BILLING_ACCOUNT:?set BILLING_ACCOUNT}" # gcloud billing accounts list
 REGION="${REGION:-europe-west4}"
 GITHUB_REPO="${GITHUB_REPO:-rammanchem98/strep-a-nsti-predictor}"
-BUDGET_AMOUNT="${BUDGET_AMOUNT:-10USD}"
+BUDGET_AMOUNT="${BUDGET_AMOUNT:-10USD}"  # MUST use the billing account's currency (e.g. 8GBP), else INVALID_ARGUMENT
 
 DEPLOY_SA="gh-deployer@${PROJECT_ID}.iam.gserviceaccount.com"
 RUNTIME_SA="nsti-runtime@${PROJECT_ID}.iam.gserviceaccount.com"

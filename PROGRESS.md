@@ -122,3 +122,10 @@
   account), Artifact Registry repo `nsti`, SAs `gh-deployer` (run.admin, artifactregistry.writer, actAs runtime SA) and
   `nsti-runtime` (no roles), WIF pool `github` / provider `github-oidc` restricted to `rammanchem98/strep-a-nsti-predictor`.
 - Remaining: set 5 GitHub repo variables → re-run workflow → add live URL to README.
+
+## Block 6 — Deployed (2026-11-20)
+- GitHub Actions run 44781323871 on 443d4a9: `test` ✔ (pytest), `build-deploy` ✔ (WIF auth, image pushed as
+  `.../nsti/nsti-gas-api:443d4a9…`, Cloud Run deploy, `/health` smoke test).
+- Live: https://nsti-gas-api-iqppasvxla-uc.a.run.app (min instances 0). Checks: `/health` 200; `/predict` same
+  example as local Docker → p=0.8679, flag=true (identical); invalid body → 422.
+- Block 7: README live link filled in. All blocks done.

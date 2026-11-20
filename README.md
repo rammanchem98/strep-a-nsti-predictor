@@ -5,7 +5,7 @@
 > No real patient data is used. **This is a learning/portfolio project. It is not clinically validated and
 > must not be used for clinical decisions.**
 
-**Live API:** _pending deployment_ (Cloud Run URL will be added here)
+**Live API:** https://nsti-gas-api-iqppasvxla-uc.a.run.app — try [`/docs`](https://nsti-gas-api-iqppasvxla-uc.a.run.app/docs) or [`/health`](https://nsti-gas-api-iqppasvxla-uc.a.run.app/health) (scales to zero, so the first request may take a few seconds)
 
 An end-to-end MLOps rebuild, on synthetic data, of the pre-surgery model from:
 
